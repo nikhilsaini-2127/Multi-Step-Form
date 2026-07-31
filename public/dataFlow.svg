@@ -1,0 +1,54 @@
+<svg width="500" height="520" viewBox="0 0 500 520" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="500" y2="520">
+<stop offset="0%" stop-color="#EEF4FF"/>
+<stop offset="100%" stop-color="#D8E6FF"/>
+</linearGradient>
+
+<linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+<stop stop-color="#6366F1"/>
+<stop offset="1" stop-color="#8B5CF6"/>
+</linearGradient>
+
+<filter id="shadow">
+<feDropShadow dx="0" dy="18" stdDeviation="20" flood-opacity=".12"/>
+</filter>
+</defs>
+
+<rect width="500" height="520" rx="30" fill="url(#bg)"/>
+
+<circle cx="430" cy="70" r="70" fill="#6366F1" opacity=".08"/>
+<circle cx="90" cy="440" r="90" fill="#8B5CF6" opacity=".08"/>
+
+<g filter="url(#shadow)">
+<rect x="70" y="60" width="360" height="400" rx="24" fill="white"/>
+</g>
+
+<rect x="70" y="60" width="360" height="60" rx="24" fill="url(#accent)"/>
+
+<circle cx="120" cy="90" r="18" fill="white"/>
+<rect x="150" y="82" width="110" height="8" rx="4" fill="white"/>
+<rect x="150" y="98" width="70" height="6" rx="3" fill="#D9D9FF"/>
+
+<circle cx="130" cy="165" r="28" fill="#EEF2FF"/>
+<circle cx="130" cy="157" r="10" fill="#6366F1"/>
+<path d="M112 180c4-12 32-12 36 0" stroke="#6366F1" stroke-width="4" stroke-linecap="round"/>
+
+<rect x="180" y="150" width="180" height="12" rx="6" fill="#E5E7EB"/>
+<rect x="180" y="172" width="140" height="8" rx="4" fill="#D1D5DB"/>
+
+<rect x="100" y="230" width="300" height="60" rx="16" fill="#F8FAFC"/>
+<circle cx="130" cy="260" r="12" fill="#6366F1"/>
+<rect x="160" y="252" width="110" height="8" rx="4" fill="#CBD5E1"/>
+<rect x="160" y="268" width="70" height="6" rx="3" fill="#E2E8F0"/>
+
+<rect x="100" y="315" width="300" height="60" rx="16" fill="#F8FAFC"/>
+<rect x="120" y="332" width="55" height="34" rx="8" fill="url(#accent)"/>
+<circle cx="145" cy="349" r="5" fill="white"/>
+<rect x="200" y="340" width="110" height="8" rx="4" fill="#CBD5E1"/>
+
+<circle cx="380" cy="415" r="18" fill="#22C55E"/>
+<path d="M372 415l5 5 10-12" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+
+</svg>

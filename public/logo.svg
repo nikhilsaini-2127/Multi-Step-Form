@@ -1,0 +1,75 @@
+<svg width="900" height="140" viewBox="0 0 900 140" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="titleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8B5CF6"/>
+      <stop offset="100%" stop-color="#A78BFA"/>
+    </linearGradient>
+
+    <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#DDD6FE" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#C4B5FD"/>
+      <stop offset="100%" stop-color="#DDD6FE" stop-opacity="0"/>
+    </linearGradient>
+
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="5" stdDeviation="6" flood-color="#8B5CF6" flood-opacity="0.18"/>
+    </filter>
+
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Decorative line -->
+  <line x1="120" y1="70" x2="300" y2="70"
+        stroke="url(#lineGradient)"
+        stroke-width="2"/>
+
+  <line x1="600" y1="70" x2="780" y2="70"
+        stroke="url(#lineGradient)"
+        stroke-width="2"/>
+
+  <!-- Left Spark -->
+  <g transform="translate(90 70)">
+    <circle r="5" fill="#8B5CF6" filter="url(#glow)"/>
+    <circle cx="-18" cy="-14" r="2.5" fill="#DDD6FE"/>
+    <circle cx="-10" cy="16" r="2" fill="#C4B5FD"/>
+    <circle cx="18" cy="-12" r="2" fill="#DDD6FE"/>
+  </g>
+
+  <!-- Right Spark -->
+  <g transform="translate(810 70)">
+    <circle r="5" fill="#8B5CF6" filter="url(#glow)"/>
+    <circle cx="18" cy="-14" r="2.5" fill="#DDD6FE"/>
+    <circle cx="10" cy="16" r="2" fill="#C4B5FD"/>
+    <circle cx="-18" cy="-12" r="2" fill="#DDD6FE"/>
+  </g>
+
+  <!-- Main Title -->
+  <text
+    x="450"
+    y="78"
+    text-anchor="middle"
+    font-family="Inter, Poppins, Segoe UI, Arial, sans-serif"
+    font-size="48"
+    font-weight="800"
+    letter-spacing="1.2"
+    fill="url(#titleGradient)"
+    filter="url(#shadow)">
+    Submission Dashboard
+  </text>
+
+  <!-- Underline Accent -->
+  <rect x="330" y="94" width="240" height="5" rx="3"
+        fill="url(#titleGradient)" opacity="0.85"/>
+
+  <!-- Floating dots -->
+  <circle cx="355" cy="30" r="3" fill="#DDD6FE"/>
+  <circle cx="545" cy="28" r="2.5" fill="#C4B5FD"/>
+  <circle cx="375" cy="112" r="2" fill="#C4B5FD"/>
+  <circle cx="525" cy="112" r="3" fill="#DDD6FE"/>
+</svg>
