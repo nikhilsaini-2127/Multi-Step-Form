@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 
 
 const FilterForm = React.memo(({ onFilterSubmit }) => {
@@ -16,10 +16,14 @@ const FilterForm = React.memo(({ onFilterSubmit }) => {
         console.log(filter)
     }
 
+    useEffect(()=>{
+      document.querySelector("#company").focus();
+    },[])
+
   return (
     <div className='flex flex-col gap-2 p-2 border border-gray-300 rounded-lg shadow-md'>
       <form action="" onSubmit={handleSubmit} className='flex flex-col gap-2'>
-        <input className="border border-gray-300 rounded-md p-2" type="text" placeholder='Company' value={filter.company} onChange={(e)=>setFilter({...filter,company:e.target.value})}/>
+        <input id='company' className="border border-gray-300 rounded-md p-2" type="text" placeholder='Company' value={filter.company} onChange={(e)=>setFilter({...filter,company:e.target.value})}/>
         <input className="border border-gray-300 rounded-md p-2" type="text" placeholder='Position' value={filter.position} onChange={(e)=>setFilter({...filter,position:e.target.value})}/>
         <input className="border border-gray-300 rounded-md p-2" type="text" placeholder='Experience' value={filter.experience} onChange={(e)=>setFilter({...filter,experience:e.target.value})}/>
         <input className="border border-gray-300 rounded-md p-2" type="email" placeholder='Email' value={filter.email} onChange={(e)=>setFilter({...filter,email:e.target.value})}/>

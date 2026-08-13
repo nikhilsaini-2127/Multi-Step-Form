@@ -7,7 +7,7 @@ import FilterForm from "../components/FilterForm";
 import Header from "../components/ui/Header";
 import { FaFilter } from "react-icons/fa";
 import debounce from "../utils/debounce";
-
+import SearchBar from "../components/ui/Searchbar";
 const Home = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -100,6 +100,22 @@ const Home = () => {
   return (
     <div className="p-4 mx-auto ">
       <ToastContainer position="top-right" autoClose={3000} />
+      <header
+        onClick={() => setShowDrawer(!showDrawer)}
+        className="flex items-baseline gap-2 mt-[-2rem]"
+      >
+        <div className="w-3/4 ">
+          <SearchBar />
+        </div>
+          <button
+            onClick={() => setShowDrawer(true)}
+            className=" text-white bg-[#8B5CF6] px-2 p-1 rounded-sm mt-4 flex gap-1 items-center hover:bg-[#7C3AED] transition"
+            type="button"
+          >
+            <FaFilter /> Filter
+          </button>
+        
+      </header>
 
       {/* Drawer */}
       {showDrawer && (
@@ -138,7 +154,7 @@ const Home = () => {
         </div>
       )}
 
-      <div className="overflow-x-auto rounded-xl border border-violet-200 shadow-sm">
+      <div className=" mt-2 overflow-x-auto rounded-xl border border-violet-200 shadow-sm">
         {/* Table */}
 
         <table className="min-w-full divide-y divide-violet-200">
@@ -158,13 +174,6 @@ const Home = () => {
               </th>
               <th className="px-6 py-3 text-left text-sm font-semibold text-violet-700 flex items-center justify-between">
                 Action
-                <button
-                  onClick={() => setShowDrawer(true)}
-                  className="text-white bg-[#8B5CF6] px-2 p-1 rounded-sm mt-4 flex gap-1 items-center hover:bg-[#7C3AED] transition"
-                  type="button"
-                >
-                  <FaFilter /> Filter
-                </button>
               </th>
             </tr>
           </thead>

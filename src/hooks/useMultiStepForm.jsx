@@ -105,11 +105,11 @@ const useMultiStepForm = () => {
       }
     } else if (stepId === "billing") {
       const { cardNumber, cardHolderName, expiryDate, cvv } = stepData;
-      if (typeof cardNumber !== "string" || !/^\d{12}$/.test(cardNumber)) {
+      if (typeof cardNumber !== "string" || !/^\d{16}$/.test(cardNumber)) {
         stepErrors.push({
           id: "cardNumber",
           step: stepIndex,
-          msg: "Card number should be a 12-digit number.",
+          msg: "Card number should be a 16-digit number.",
         });
       }
       if (typeof cardHolderName !== "string" || cardHolderName.trim() === "") {
@@ -131,11 +131,11 @@ const useMultiStepForm = () => {
         });
       }
 
-      if (typeof cvv !== "string" || !/^\d{4}$/.test(cvv)) {
+      if (typeof cvv !== "string" || !/^\d{3}$/.test(cvv)) {
         stepErrors.push({
           id: "cvv",
           step: stepIndex,
-          msg: "CVV should be a 4-digit number.",
+          msg: "CVV should be a 3-digit number.",
         });
       }
     }
