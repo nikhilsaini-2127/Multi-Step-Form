@@ -7,6 +7,7 @@ import { MdBrowserUpdated } from "react-icons/md";
 import { ToastContainer,toast } from "react-toastify";
 import "react-toastify/ReactToastify.css";
 import ErrorMsg from "../components/ui/ErrorMsg";
+import Header from "../components/ui/Header";
 
 const EditData = () => {
   const {

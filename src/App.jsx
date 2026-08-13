@@ -4,10 +4,14 @@ import Home from "./pages/Home";
 import ViewData from "./pages/ViewData";
 import EditData from "./pages/EditData";
 import Dashboard from "./pages/Dashboard";
+import Header from "./components/ui/Header";
 
 function App() {
   return (
     <BrowserRouter>
+    <div className="mt-1">
+    <Header/>
+    </div>
     <Routes>
       <Route path="/form" element={
         <div className="flex flex-row justify-around">
