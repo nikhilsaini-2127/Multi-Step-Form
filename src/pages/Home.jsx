@@ -102,7 +102,7 @@ const Home = () => {
       <ToastContainer position="top-right" autoClose={3000} />
       <header
         onClick={() => setShowDrawer(!showDrawer)}
-        className="flex items-baseline gap-2 mt-[-2rem]"
+        className="flex items-baseline gap-2 -mt-8"
       >
         <div className="w-3/4 ">
           <SearchBar />

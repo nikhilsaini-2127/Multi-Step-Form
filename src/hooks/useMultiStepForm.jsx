@@ -36,6 +36,7 @@ const useMultiStepForm = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
   const [error, setError] = useState([]);
+  const [validatedSteps, setValidatedSteps] = useState(new Set());
    const inputRef =useRef({});
 
   const isFirstStep = currentStep === 0;
@@ -141,7 +142,7 @@ const useMultiStepForm = () => {
     }
   };
 
-  const validateStep = (step) => {
+  const getStepErrors = (step) => {
     const stepData = formData[steps[step].id];
     const stepErrors = [];
 
@@ -155,6 +156,18 @@ const useMultiStepForm = () => {
         });
       }
     }
+    return stepErrors;
+  };
+
+  const validateStep = (step) => {
+    const stepErrors = getStepErrors(step);
+
+    setValidatedSteps((prev) => {
+      const next = new Set(prev);
+      next.add(step);
+      return next;
+    });
+
     if(error.length > 24) setError([])
 
     setError((prev)=>{
@@ -167,11 +180,20 @@ const useMultiStepForm = () => {
     return true;
   };
 
+  const stepStates = steps.map((step, index) => {
+    if (index === currentStep) return "current";
+
+    const isValid = getStepErrors(index).length === 0;
+    if (isValid && index < currentStep) return "completed";
+    if (validatedSteps.has(index)) return "invalid";
+    return "pending";
+  });
+
   const goToNextStep = () => {
     validateStep(currentStep);
     setTimeout(()=>{
       if (!isLastStep) setCurrentStep((prev) => prev + 1);
-    },2000)
+    },300)
     
   };
 
@@ -209,6 +231,7 @@ const useMultiStepForm = () => {
     setCurrentStep(0);
     setIsSubmitted(false);
     setError([]);
+    setValidatedSteps(new Set());
   };
 
   return {
@@ -219,6 +242,7 @@ const useMultiStepForm = () => {
     isLastStep,
     isSubmitted,
     steps,
+    stepStates,
     goToNextStep,
     goToPreviousStep,
     updateFormData,

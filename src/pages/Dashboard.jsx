@@ -20,45 +20,13 @@ const Dashboard = () => {
   const [data, setData] = useState({
     totalSubmissions: 0,
     avgExperience: 0,
-    submissionsByDate: {},
-    recentSubmissions: {},
+    submissionsByDate: [],
+    recentSubmissions: [],
   });
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          "http://localhost:5000/api/dashboard/submissions-by-date",
-        );
-        // const res=await Promise.all(
-        //   fetch("http://localhost:5000/api/dashboard/total-submissions"),
-        //   fetch("http://localhost:5000/api/dashboard/avg-experience"),
-        //   fetch("http://localhost:5000/api/dashboard/submissions-by-date")
-        // )
-
-        const result = await response.json();
-
-        if (!result.success) {
-          console.error("Error fetching data:", result.message);
-          return;
-        }
-
-        const rawData = result.submissionsByDate;
-        const formattedData = Array.isArray(rawData)
-          ? rawData
-          : Object.entries(rawData || {}).map(([date, submissions]) => ({
-              date,
-              submissions,
-            }));
-
-        setData(formattedData);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
     const fetchAll = async () => {
       try {
         const [
@@ -72,18 +40,18 @@ const Dashboard = () => {
           fetch("http://localhost:5000/api/dashboard/submissions-by-date"),
           fetch("http://localhost:5000/api/dashboard/recent-submissions"),
         ]);
+
         const totalSubmissionsData = await totalSubmissionsResponse.json();
         const avgExperienceData = await avgExperienceResponse.json();
         const submissionsByDateData = await submissionsByDateResponse.json();
         const recentSubmissionsData = await recentSubmissionsResponse.json();
 
         setData({
-          totalSubmissions: totalSubmissionsData.totalSubmissions,
-          avgExperience: avgExperienceData.avgExperience,
-          submissionsByDate: submissionsByDateData.submissionsByDate,
+          totalSubmissions: totalSubmissionsData.totalSubmissions ?? 0,
+          avgExperience: avgExperienceData.averageExperience ?? 0,
+          submissionsByDate:submissionsByDateData.submissionsByDate,
           recentSubmissions: recentSubmissionsData.recentSubmissions,
         });
-        console.log(data.recentSubmissions);
       } catch (error) {
         console.error("Error fetching all data:", error);
       }
@@ -92,13 +60,14 @@ const Dashboard = () => {
     fetchAll();
   }, []);
 
-  const formattedData = Object.entries(data.submissionsByDate || {}).map(
-    ([date, submissions]) => ({ date, submissions }),
-  );
+  const recentSubmissionList = Array.isArray(data.recentSubmissions)
+    ? data.recentSubmissions
+    : Object.values(data.recentSubmissions || {});
+
   return (
-    <div className="flex justify-between w-full h-[100vh]   p-2  ">
-      <section className="border border-[#ddd6fe] w-full rounded-sm ">
-        <section className="p-2 mt-4 ">
+    <div className="flex justify-between w-full h-[100vh] p-2">
+      <section className="border border-[#ddd6fe] w-full rounded-sm">
+        <section className="p-2 mt-4">
           <h1 className="text-5xl text-[#8B5CF6] font-bold">
             Submission Panel
           </h1>
@@ -110,7 +79,7 @@ const Dashboard = () => {
           </div>
         </section>
         <section id="analytics">
-          <h1 className="text-5xl text-[#8B5CF6] font-bold p-2 mt-4 ">
+          <h1 className="text-5xl text-[#8B5CF6] font-bold p-2 mt-4">
             Analytics
           </h1>
           <div className="flex justify-between px-2 mt-4">
@@ -118,7 +87,7 @@ const Dashboard = () => {
               <BarChart
                 width={300}
                 height={300}
-                data={formattedData}
+                data={data.submissionsByDate}
                 margin={{ top: 10, right: 10, left: 0, bottom: 10 }}
               >
                 <XAxis
@@ -160,7 +129,6 @@ const Dashboard = () => {
                     { Company: "Amazon", responses: 868 },
                   ]}
                   dataKey="responses"
-                  //isAnimationActive={isAnimationActive}
                 />
                 <Tooltip defaultIndex={2} />
               </PieChart>
@@ -174,40 +142,63 @@ const Dashboard = () => {
           <h2 className="text-2xl text-[#8B5CF6] font-semibold mb-3">
             Recent Submissions
           </h2>
-          {Object.entries(data?.recentSubmissions["0"] || {}).map(([key, value], index) => {
-            if (typeof value === "object" && value !== null) {
-              return (
-                <div
-                  key={index}
-                  className="mb-3 rounded-2xl border border-[#ddd6fe] bg-white p-4 shadow-sm"
-                >
-                  <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-[#8B5CF6]">
-                    {key}
-                  </h3>
-                  <div className="grid gap-2 md:grid-cols-2">
-                    {Object.entries(value).map(([subKey, subValue], subIndex) => {
-                      if(subKey === "submission_id") return null;
-                      return(
+          {recentSubmissionList.length === 0 ? (
+            <p className="text-gray-500">No recent submissions available.</p>
+          ) : (
+            recentSubmissionList.map((submission, index) => (
+              <div
+                key={submission?.id ?? index}
+                className="mb-3 rounded-2xl border border-[#ddd6fe] bg-white p-4 shadow-sm"
+              >
+                <div className="mb-3 grid gap-2 md:grid-cols-2">
+                  {Object.entries(submission || {}).map(([key, value]) => {
+                    if (key === "submission_id" || key === "created_at" || key === "updated_at") {
+                      return null;
+                    }
+
+                    if (value && typeof value === "object") {
+                      return (
                         <div
-                        key={subIndex}
-                        className="rounded-xl border border-[#f3e8ff] bg-[#faf5ff] p-3"
+                          key={key}
+                          className="rounded-xl border border-[#f3e8ff] bg-[#faf5ff] p-3"
                         >
+                          <p className="text-xs font-medium uppercase tracking-wide text-[#7c3aed]">
+                            {key}
+                          </p>
+                          <div className="mt-2 space-y-2">
+                            {Object.entries(value).map(([nestedKey, nestedValue]) => {
+                              if (nestedKey === "submission_id") return null;
+
+                              return (
+                                <div key={nestedKey} className="text-sm text-gray-700">
+                                  <span className="font-medium text-gray-900">{nestedKey}:</span>{" "}
+                                  {nestedValue == null ? "-" : String(nestedValue)}
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      );
+                    }
+
+                    return (
+                      <div
+                        key={key}
+                        className="rounded-xl border border-[#f3e8ff] bg-[#faf5ff] p-3"
+                      >
                         <p className="text-xs font-medium uppercase tracking-wide text-[#7c3aed]">
-                          {subKey}
+                          {key}
                         </p>
                         <p className="mt-1 text-sm text-gray-700">
-                          {String(subValue)}
+                          {value == null ? "-" : String(value)}
                         </p>
                       </div>
-                      )
-            })}
-                  </div>
+                    );
+                  })}
                 </div>
-              );
-            }
-
-            return null;
-          })}
+              </div>
+            ))
+          )}
         </section>
       </section>
     </div>

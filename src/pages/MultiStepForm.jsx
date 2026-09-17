@@ -1,4 +1,3 @@
-import React, { useRef } from "react";
 import ProgressSteps from "../components/ProgressSteps";
 import PersonalInfoStep from "../components/PersonalInfoStep";
 import ProfessionalInfoStep from "../components/ProfessionalInfoStep";
@@ -24,6 +23,7 @@ const MultiStepForm = () => {
     validateStep,
     error,
     isSubmitted,
+    stepStates,
     setError,
     setCurrentStep,
     inputRef,
@@ -74,7 +74,7 @@ const MultiStepForm = () => {
   };
 
   const handleNext = () => {
-    const goToNext=throttle(goToNextStep,3000);
+    const goToNext=throttle(goToNextStep,300);
     goToNext()
     //console.log(error)
   };
@@ -110,7 +110,12 @@ const MultiStepForm = () => {
       <div className="flex flex-col items-center justify-center md:w-1/3 w-full bg-[#EEF4FF] mx-auto my-12 p-2 border-2-[#ccc] rounded-md">
         <ToastContainer position="top-right" autoClose={3000} />
         <div className="w-[90%]">
-          <ProgressSteps currentStep={currentStep} steps={steps} />
+          <ProgressSteps
+            currentStep={currentStep}
+            steps={steps}
+            stepStates={stepStates}
+            onStepSelect={setCurrentStep}
+          />
         </div>
         <div className="w-full">
           {currentStep === 0 && (
